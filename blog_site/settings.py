@@ -53,7 +53,7 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',         # For debug
 ]
 
-ROOT_URLCONF = 'mysite.urls'
+ROOT_URLCONF = 'blog_site.urls'
 
 TEMPLATES = [
     {
@@ -71,7 +71,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'mysite.wsgi.application'
+WSGI_APPLICATION = 'blog_site.wsgi.application'
 
 
 # Database

@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'debug_toolbar',                # For debug
     'polls.apps.PollsConfig',       # Polls
+    'posts.apps.PostsConfig',       # Posts
     'django.contrib.admin',         # Default
     'django.contrib.auth',          # Default
     'django.contrib.contenttypes',  # Default

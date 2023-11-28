@@ -4,11 +4,11 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 
-from .models import Question, Choice
+from .models import Post, Category, Comment
 
 
 class IndexView(generic.ListView):
-    template_name = "polls/index.html"
+    template_name = "posts/index.html"
     context_object_name = "latest_question_list"
 
     def get_queryset(self):
@@ -16,35 +16,35 @@ class IndexView(generic.ListView):
         Return the last five published questions (not including those set to be
         published in the future).
         """
-        return Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
+        return Post.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
 
 
 class DetailView(generic.DetailView):
-    model = Question
-    template_name = "polls/detail.html"
+    model = Post
+    template_name = "posts/detail.html"
 
     def get_queryset(self):
         """
         Exclude any questions that are not published yet.
         """
-        return Question.objects.filter(pub_date__lte=timezone.now())
+        return Post.objects.filter(pub_date__lte=timezone.now())
 
 
 class ResultsView(generic.DetailView):
-    model = Question
-    template_name = "polls/results.html"
+    model = Post
+    template_name = "posts/results.html"
 
 
 def vote(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
+    post = get_object_or_404(Post, pk=question_id)
     try:
-        selected_choice = question.choice_set.get(pk=request.POST["choice"])
-    except (KeyError, Choice.DoesNotExist):
+        selected_choice = post.choice_set.get(pk=request.POST["comment"])
+    except (KeyError, Comment.DoesNotExist):
         return render(
             request,
-            "polls/detail.html",
+            "posts/detail.html",
             {
-                "question": question,
+                "question": post,
                 "error_message": "You did not select a choice.",
             },
         )
@@ -54,4 +54,4 @@ def vote(request, question_id):
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button
-        return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
+        return HttpResponseRedirect(reverse("posts:results", args=(post.id,)))

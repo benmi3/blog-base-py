@@ -4,12 +4,12 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 
-from .models import Post, Category, Comment
+from .models import Post, Comment  # Category  # add this later
 
 
 class IndexView(generic.ListView):
     template_name = "posts/index.html"
-    context_object_name = "latest_question_list"
+    context_object_name = "latest_posts_list"
 
     def get_queryset(self):
         """

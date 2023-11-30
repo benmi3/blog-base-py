@@ -1,0 +1,13 @@
+<form action="{% url 'posts:vote' post.id %}" method="post">
+{% csrf_token %}
+<fieldset>
+    <legend><h1>{{ post.post_title }}</h1></legend>
+    <legend><p>{{ post.post_text }}</p></legend>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    {% for comment in post.comment.all %}
+        <li><a href="{% url 'posts:detail' posts.id %}">{{ comment.comment_text }}<a></li>
+
+    {% endfor %}
+</fieldset>
+<input type="submit" value="Vote">
+</form>

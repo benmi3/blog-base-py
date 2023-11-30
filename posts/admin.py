@@ -15,29 +15,37 @@ class CategoryInline(admin.StackedInline):
 
 
 class PostAdmin(admin.ModelAdmin):
-    # fields = ["pub_date", "question_text"]
+    # fields = ["pub_date", "post_text"]
     fieldsets = [
-        (None, {"fields": ["question_text"]}),
-        ("Date information", {"fields": ["pub_date"],
-                              "classes": ["collapse"]}),
-    ]
-    inlines = [CommentInline, CategoryInline]
+        (None, {"fields": ["post_title",
+                           "post_text",
+                           "post_author",
+                           "category",
+                           "pub_date",
+                           "upd_date"]}),]
+    inlines = [CommentInline]
     list_display = [
-        "question_text",
+        "post_text",
         "pub_date",
         "was_published_recently",
     ]
     list_filter = ["pub_date"]
-    search_fields = ["question_text"]
+    search_fields = ["post_text"]
 
 
 class CommentAdmin(admin.ModelAdmin):
-    fields = ["pub_date", "likes"]
+    fields = ["pub_date",
+              "comment_likes",
+              "comment_text",
+              "comment_author",
+              "approved_comment"]
 
 
 class CategoryAdmin(admin.ModelAdmin):
     fields = ["category_name", "category_description"]
 
 
+admin.site.register(Comment, CommentAdmin)
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(Post, PostAdmin)
 # admin.site.register(Choice)

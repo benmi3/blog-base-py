@@ -14,22 +14,17 @@ class Category(models.Model):
         return self.category_name
 
 
-class Like(models.Model):
-    vote = models.BooleanField(default=False)
-    author = models.CharField(max_length=200)
-
-
 class Post(models.Model):
-    text = models.TextField()
-    likes = models.IntegerFields(default=0)
-    dislikes = models.IntegerField(default=0)
-    author = models.CharField(max_length=200)
-    content = models.TextField()
+    post_text = models.TextField()
+    post_title = models.CharField(max_length=200)
+    post_author = models.CharField(max_length=200)
     pub_date = models.DateTimeField("date published")
+    pub_state = models.BooleanField(default=False)
+    upd_date = models.DateTimeField("date updated")
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.question_text
+        return self.post_text
 
     @admin.display(
         boolean=True,
@@ -42,13 +37,35 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    text = models.TextField()
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    likes = models.IntegerField(default=0)
-    dislikes = models.IntegerField(default=0)
-    author = models.CharField(max_length=200)
+    comment_text = models.TextField()
+    comment_post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    comment_author = models.CharField(max_length=200)
     pub_date = models.DateTimeField("date published")
     approved_comment = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.text
+        return self.comment_text
+
+    def was_published_recently(self):
+        now = timezone.now()
+        return now - datetime.timedelta(days=1) <= self.pub_date <= now
+
+
+class Like(models.Model):
+    like_post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    like_status = models.BooleanField(default=True)
+    like_author = models.CharField(max_length=200)
+    pub_date = models.DateTimeField("date published")
+
+    def __str__(self):
+        return self.like_status
+
+
+class Commend(models.Model):
+    commend_comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    commend_status = models.BooleanField(default=True)
+    commend_author = models.CharField(max_length=200)
+    pub_date = models.DateTimeField("date published")
+
+    def __str__(self):
+        return self.commend_status

@@ -35,8 +35,29 @@ class ResultsView(generic.DetailView):
     template_name = "posts/results.html"
 
 
-def vote(request, question_id):
-    post = get_object_or_404(Post, pk=question_id)
+def vote(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    try:
+        selected_choice = post.choice_set.get(pk=request.POST["comment"])
+    except (KeyError, Comment.DoesNotExist):
+        return render(
+            request,
+            "posts/detail.html",
+            {
+                "question": post,
+                "error_message": "You did not select a choice.",
+            },
+        )
+    else:
+        selected_choice.votes += 1
+        selected_choice.save()
+        # Always return an HttpResponseRedirect after successfully dealing
+        # with POST data. This prevents data from being posted twice if a
+        # user hits the Back button
+        return HttpResponseRedirect(reverse("posts:results", args=(post.id,)))
+
+def comment(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
     try:
         selected_choice = post.choice_set.get(pk=request.POST["comment"])
     except (KeyError, Comment.DoesNotExist):

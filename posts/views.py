@@ -5,6 +5,7 @@ from django.views import generic
 from django.utils import timezone
 
 from .models import Post, Comment  # Category  # add this later
+from .forms import CommentForm
 
 
 class IndexView(generic.ListView):
@@ -56,23 +57,21 @@ def vote(request, post_id):
         # user hits the Back button
         return HttpResponseRedirect(reverse("posts:results", args=(post.id,)))
 
+
 def comment(request, post_id):
-    post = get_object_or_404(Post, pk=post_id)
-    try:
-        selected_choice = post.choice_set.get(pk=request.POST["comment"])
-    except (KeyError, Comment.DoesNotExist):
-        return render(
-            request,
-            "posts/detail.html",
-            {
-                "question": post,
-                "error_message": "You did not select a choice.",
-            },
-        )
+    # if this is a POST request we need to process the form data
+    if request.method == "POST":
+        # create a form instance and populate it with data from the request:
+        form = CommentForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            return HttpResponseRedirect(reverse("posts:results", args=(post_id,)))
+
+    # if a GET (or any other method) we'll create a blank form
     else:
-        selected_choice.votes += 1
-        selected_choice.save()
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button
-        return HttpResponseRedirect(reverse("posts:results", args=(post.id,)))
+        form = CommentForm()
+
+    return render(request, "posts/comment.html", {"form": form})

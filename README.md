@@ -1,4 +1,4 @@
-This sinmple web app is made by looking at [Django-Documents](https://docs.djangoproject.com/en/4.2/)
+This simple web app is made by looking at [Django-Documents](https://docs.djangoproject.com/en/4.2/)
 
 # Use this if you change the database from sqlite3 to postgres
 # start docker

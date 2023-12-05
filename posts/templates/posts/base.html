@@ -2,22 +2,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'posts/style.css' %}">
-    <title>{% block title %}My amazing site{% endblock %}</title>
+    <title>{% block title %}Blog Site Title{% endblock title%}</title>
 </head>
 
 <body>
-    <div id="sidebar">
+    <div class="sidebar" id="sidebar">
         {% block sidebar %}
         <ul>
             <li><a href="/">Home</a></li>
-            <li><a href="/blog/">Blog</a></li>
+            <li><a href="/polls/">Polls</a></li>
+            <li><a href="/posts/">Posts</a></li>
         </ul>
-        {% endblock %}
+        {% endblock sidebar %}
     </div>
 
     <div id="content">
         {% block content %}{% endblock %}
     </div>
+<footer>
+    {% block footer %}
+    <a>------------------------------------------------------------ Fancy footer</a>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/polls/">Polls</a></li>
+        <li><a href="/posts/">Posts</a></li>
+    </ul>
+    {% endblock footer %}
+</footer>
 </body>
 </html>

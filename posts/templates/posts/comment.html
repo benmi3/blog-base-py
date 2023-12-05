@@ -1,5 +1,0 @@
-<form action="{% url 'posts:comment' post.id %}"  method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Submit">
-</form>

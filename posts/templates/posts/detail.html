@@ -1,14 +1,28 @@
-<form action="{% url 'posts:comment' post.id %}" method="post">
-{% csrf_token %}
-<fieldset>
-    <legend><h1>{{ post.post_title }}</h1></legend>
-    <legend><a>{{ post.post_text }}</a></legend>
-    {{ form }}
-    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-    {% for comment in post.comment.all %}
-        <li><a href="{% url 'posts:detail' posts.id %}">{{ comment.comment_text }}<a></li>
+{% extends "posts/base.html" %}
 
-    {% endfor %}
-</fieldset>
-<input type="submit" value="Submit">
-</form>
+{% block title %}Details of:{{ post.post_title }}{% endblock title %}
+
+{% block content %}
+    <div class="simple-container">
+        <h1>{{ post.post_title }}</h1>
+        <a>{{ post.post_text }}</a>
+        <h3>{{ post.category }}</h3>
+    </div>
+    <hr/>
+    <div class="simple-container" id="comment_box">
+        <form action="{% url 'posts:comment' post.id %}" method="post">
+            {% csrf_token %}
+            <label for="comment_text">Comment:</label>
+            <input type="text" name="comment_text" id="comment_text" required/>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% for comment in post.comment_set.all %}
+    <div class="simple-container" id="comment_box">
+        <a href="{% url 'posts:detail' post.id %}">{{ comment.comment_author }}</a>
+        <p class="comment">{{ comment.comment_text }}</p>
+    </div>
+{% endfor %}
+
+{% endblock content %}

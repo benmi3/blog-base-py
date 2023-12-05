@@ -1,6 +1,8 @@
-{% load static %}
+{% extends "posts/base.html" %}
 
-<link rel="stylesheet" href="{% static 'posts/style.css' %}">
+{% block title %}My amazing blog{% endblock title %}
+
+{% block content %}
 
 {% if latest_posts_list %}
     <ul>
@@ -11,3 +13,5 @@
 {% else %}
     <p>No posts are available.</p>
 {% endif %}
+
+{% endblock content %}

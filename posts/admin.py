@@ -35,7 +35,6 @@ class PostAdmin(admin.ModelAdmin):
 
 class CommentAdmin(admin.ModelAdmin):
     fields = ["pub_date",
-              "comment_likes",
               "comment_text",
               "comment_author",
               "approved_comment"]

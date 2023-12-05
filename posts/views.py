@@ -20,16 +20,20 @@ class IndexView(generic.ListView):
         return Post.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
 
 
-class DetailView(generic.DetailView):
+class DetailView(
+    generic.edit.FormMixin,
+    generic.DetailView,
+):
     model = Post
     template_name = "posts/detail.html"
+    form_class = CommentForm
+    success_url = "/detail/"
 
     def get_queryset(self):
         """
         Exclude any questions that are not published yet.
         """
         return Post.objects.filter(pub_date__lte=timezone.now())
-
 
 class ResultsView(generic.DetailView):
     model = Post
@@ -59,6 +63,7 @@ def vote(request, post_id):
 
 
 def comment(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
     # if this is a POST request we need to process the form data
     if request.method == "POST":
         # create a form instance and populate it with data from the request:
@@ -67,11 +72,28 @@ def comment(request, post_id):
         if form.is_valid():
             # process the data in form.cleaned_data as required
             # ...
+            print(f"here is the form -------\n{form}\n----------------------")
+            #post_comment = form.comment_text
+            #try:
+            comment_object = post.comment_set.get(pk=request.POST["comment_text"])
+            #except:
+            #    comment_object = None
+            new_comment = Comment(
+                comment_author="TODO_test_user_hard_coded",  # TODO: add author auth
+                comment_post=post,
+                comment_text=comment_object,
+                approved_comment=True,  # TODO: create a trust system
+            )
+            new_comment.save()
             # redirect to a new URL:
-            return HttpResponseRedirect(reverse("posts:results", args=(post_id,)))
+            return HttpResponseRedirect(reverse("posts:detail", args=(post.id,)))
 
     # if a GET (or any other method) we'll create a blank form
     else:
         form = CommentForm()
 
-    return render(request, "posts/comment.html", {"form": form})
+    return render(request, "posts/comment.html",
+                  {
+                      "form": form,
+                      "post": post,
+                  })

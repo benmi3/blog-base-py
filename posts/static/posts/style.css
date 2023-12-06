@@ -7,15 +7,37 @@ body {
 	font-family: monospace;
 	line-height: 1.75em;
 	font-size: 16px;
-	background-color: #222;
-	color: #aaa;
+	background-color: #222222;
+	color: lightgray;
 }
 
 .bigger-container {
 	max-width: 800px;
+	max-height: 800px;
 	margin: 0 auto;
 	padding-top: 15px;
 	padding-bottom: 15px;
+}
+
+.hard-container {
+	max-width: 675px;
+	min-width: 400px;
+	height: auto;
+	min-height: 260px;
+	margin: 0 auto;
+	padding-top: 70px;
+	padding-bottom: 20px;
+	overflow: auto;
+}
+
+.comment-container {
+	max-width: 675px;
+	min-width: 400px;
+	height: auto;
+	margin: 0 auto;
+	padding-top: 70px;
+	padding-bottom: 20px;
+	overflow: auto;
 }
 
 .simple-container {
@@ -73,6 +95,19 @@ hr {
 	margin: 0px;
 }
 
+textarea {
+	width: 100%;
+	height: 150px;
+	padding: 12px 20px;
+	box-sizing: border-box;
+	border: 2px dashed lightgray;
+	border-radius: 4px;
+	background-color: #222222;
+	font-size: 16px;
+	resize: none;
+	color: lightgray;
+}
+
 a[href] {
 	color: lightgray;
 }
@@ -82,8 +117,13 @@ a[href]:hover {
 }
 
 p.comment {
-	border-style: solid;
-	border-color: darkred;
+	background-color: #222222;
+	border-color: lightgray;
+	word-wrap: break-word;
+}
+
+a.comment {
+	border-bottom: 1px solid lightgray;
 	word-wrap: break-word;
 }
 
@@ -112,7 +152,7 @@ aside,
 
 #post_box {
     border-radius: 25px;
-	border: 2px solid darkgreen;
+	border: 2px solid lightgray;
     /*background: gray;*/
     padding: 20px;
     width: 200px;
@@ -121,7 +161,7 @@ aside,
 
 #comment_box {
     border-radius: 25px;
-	border: 2px solid darkgreen;
+	border: 2px solid lightgray;
     /*background: gray;*/
     padding: 20px;
     width: 200px;

@@ -1,12 +1,12 @@
 import datetime
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404  # render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 
-from .models import Post, Comment  # Category  # add this later
+from .models import Post, Comment, Category
 
 
 class IndexView(generic.ListView):
@@ -32,9 +32,16 @@ class DetailView(generic.DetailView):
         return Post.objects.filter(pub_date__lte=timezone.now())
 
 
-class ResultsView(generic.DetailView):
-    model = Post
-    template_name = "posts/results.html"
+class CategoryView(generic.DetailView):
+    model = Category
+    template_name = "posts/category.html"
+    context_object_name = "categories"
+
+    def get_queryset(self):
+        """
+        Get all categories
+        """
+        return Category.objects.all().order_by("category_name")
 
 
 def comment(request, post_id):

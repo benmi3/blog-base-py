@@ -9,7 +9,7 @@ urlpatterns = [
     # ex: /posts/5/
     path("<int:pk>/", views.DetailView.as_view(), name="detail"),
     # ex: /posts/5/results
-    path("<int:pk>/results", views.ResultsView.as_view(), name="results"),
+    path("<int:pk>/category", views.CategoryView.as_view(), name="category"),
     # ex /posts/5/comment/
     path("<int:post_id>/comment/", views.comment, name="comment"),
 ]

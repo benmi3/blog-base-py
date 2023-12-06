@@ -1,0 +1,23 @@
+{% extends "posts/base.html" %}
+
+{% block title %}All of the categories!{% endblock title %}
+
+{% block content %}
+
+    <h1>Here is a list of all the post categories!</h1>
+    {% if categories %}
+        {{ categories }}
+    <ul>
+    {% for category in categories.all %}
+        <hr />
+        <li> {{ category.id }} {{ category.category_name }} </li>
+    {% endfor %}
+    </ul>
+
+    {% else %}
+    <p>No categories are available.</p>
+    {% endif %}
+
+    <a>Will add more things here later</a>
+
+{% endblock content %}
